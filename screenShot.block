@@ -1,0 +1,114 @@
+<template color="#000000">
+    <dummy>
+        <label>before taking screenshot</label>
+    </dummy>
+    <dummy>
+        <label>waiting time before in (ms)</label>
+    </dummy>
+    <value name="waitingTimeBefore">
+        <block type="math_number"></block>
+    </value>
+    <statement name="beforeStatement"></statement>
+    <dummy>
+        <label>after taking screenshot</label>
+    </dummy>
+    <dummy>
+        <label>waiting time after in (ms)</label>
+    </dummy>
+    <value name="waitingTime">
+        <block type="math_number"></block>
+    </value>
+    <statement name="afterStatement"></statement>
+</template>
+
+<script>
+    function wrapFn(contents) {
+        return `function() {${contents}}`;
+    }
+    function code(block) {
+        const beforeStatement = wrapFn(
+            Blockly.JavaScript.statementToCode(block, "beforeStatement")
+        );
+        const afterStatement = wrapFn(Blockly.JavaScript.statementToCode(block, "afterStatement"));
+        const waitingTime =
+            Blockly.JavaScript.valueToCode(block, "waitingTime", Blockly.JavaScript.ORDER_NONE) ||
+            `''`;
+        const waitingTimeBefore =
+            Blockly.JavaScript.valueToCode(
+                block,
+                "waitingTimeBefore",
+                Blockly.JavaScript.ORDER_NONE
+            ) || `''`;
+
+        const fun = Plug.provide(
+            "screenShot",
+            async function (before, after, waitingTime, waitingTimeBefore) {
+                window.addEventListener("message", function (e) {
+                    let response = JSON.parse(e.data);
+                    if (response.action === "screenshot") {
+                        before();
+                        const win = window;
+                        var canvas = document.querySelector("#v3d-container");
+                            var p = JSON.parse(JSON.stringify(canvas.getBoundingClientRect()));
+                        var src;
+                        window.setTimeout(function () {
+                            console.log("1: resizing");
+                            // adding screenshot overlay
+                            var overlay = win.document.createElement("img");
+                            overlay.id = "overlay";
+                            overlay.style =
+                                "display: block; width: 100%; heigth: 100% z-index: 1000; position: absolute; top: 0; left: 0;";
+                            overlay.src = appInstance.renderer.domElement.toDataURL("image/png");
+                            document
+                                .querySelector("#v3d-container")
+                                .parentNode.appendChild(overlay);
+                            var size = 630;
+                            canvas.style.width = `${size}px`;
+                            canvas.style.height = `${size}px`;
+                            canvas.width = `${size}`;
+                            canvas.height = `${size}`;
+                            appInstance.renderer.setPixelRatio(1);
+                            if (appInstance.postprocessing) {
+                                appInstance.postprocessing.composer.setPixelRatio(1);
+                            }
+                            enableRendering();
+                            appInstance.onResize();
+
+                        }, waitingTimeBefore);
+
+                        window.setTimeout(function () {
+                            enableRendering();
+
+                            console.log("2: taking screenshot");
+
+                            src = appInstance.renderer.domElement.toDataURL("image/png");
+                            window.parent.postMessage(
+                                JSON.stringify({ action: "screenshot", data: src }),
+                                "*"
+                            );
+                        }, waitingTimeBefore + 300);
+
+                        window.setTimeout(function () {
+                            console.log("3");
+
+                            canvas.width = `${p.width}`;
+                            canvas.height = `${p.height}`;
+                            canvas.style.width = `${p.width}px`;
+                            canvas.style.height = `${p.height}px`;
+
+                            overlay.remove();
+                            setScreenScale(window.devicePixelRatio);
+                        }, waitingTimeBefore + 400);
+
+                        window.setTimeout(function () {
+                            console.log("4");
+
+                            after();
+                        }, waitingTime + waitingTimeBefore + 500);
+                    }
+                });
+            }
+        );
+        return `${fun}( ${beforeStatement},${afterStatement},${waitingTime},${waitingTimeBefore});`;
+    }
+</script>

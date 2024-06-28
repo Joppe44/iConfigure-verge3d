@@ -1,0 +1,39 @@
+<script>
+    function template(block) {
+        block.setNextStatement(true);
+        block.setPreviousStatement(true)
+        block.setColour("#000000");
+        block.setTooltip("");
+        block.setHelpUrl("");
+        block
+        .appendDummyInput()
+        .appendField("update the value of an feature:")
+        block .appendValueInput("featureID")
+            .setCheck("String")
+            .setAlign(Blockly.ALIGN_RIGHT)
+            .appendField("feature ID:");
+            block
+            .appendValueInput("value")
+            .setAlign(Blockly.ALIGN_RIGHT)
+            .appendField("value");
+  
+    }
+
+    function code(block) {
+        const featureId = Blockly.JavaScript.valueToCode(block, "featureID", Blockly.JavaScript.ORDER_ATOMIC);
+        const value = Blockly.JavaScript.valueToCode(block, "value", Blockly.JavaScript.ORDER_ATOMIC);
+    
+        const fun = Plug.provide("updateFeatureValue", function (feature, value) {
+            window.parent.postMessage(
+                { 
+                    action: "updateFeatureValue", 
+                    feature: feature, 
+                    value: value
+                },
+                "*"
+            );
+
+        })
+        return `${fun}(${featureId},${value});`
+    }
+</script>

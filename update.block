@@ -1,0 +1,30 @@
+<template color="#000000">
+    <dummy>
+        <label>On configuration update</label>
+    </dummy>
+
+    <statement name="myStatement"></statement>
+</template>
+
+<script>
+    function wrapFn(contents) {
+        return `function() {${contents}}`;
+    }
+
+    function code(block) {
+        const myStatement = wrapFn(Blockly.JavaScript.statementToCode(block, "myStatement"));
+        const fun = Plug.provide("update", function (statements) {
+            window.addEventListener("message", function (e) {
+                if (e.data ===  'loaded'){return};
+                let response = JSON.parse(e.data);
+
+                if (response.action === "updateConfiguration") {
+                window.changedFeature = response.updatedFeature;
+                    window.selectedItems = response.configuration;
+                    statements();
+                }
+            });
+        });
+        return `${fun}( ${myStatement});`;
+    }
+</script>
