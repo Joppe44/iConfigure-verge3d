@@ -1,0 +1,34 @@
+<script>
+    function template(block) {
+        block.setNextStatement(true);
+        block.setPreviousStatement(true)
+        block.setColour("#000000");
+        block.setTooltip("");
+        block.setHelpUrl("");
+        block
+        .appendDummyInput()
+        .appendField("scroll to feature")
+        block 
+        .appendValueInput("feature")
+            .setAlign(Blockly.ALIGN_RIGHT)
+            .appendField("feature id:");
+         
+  
+    }
+
+    function code(block) {
+        const feature = Blockly.JavaScript.valueToCode(block, "feature", Blockly.JavaScript.ORDER_ATOMIC);
+        const fun = Plug.provide("scrollToFeature", function (feature) {
+            console.log(feature)
+            window.parent.postMessage(
+                {
+                    action: "scrollToFeature", 
+                    feature: feature, 
+                },
+                "*"
+            );
+
+        })
+        return `${fun}(${feature});`
+    }
+</script>

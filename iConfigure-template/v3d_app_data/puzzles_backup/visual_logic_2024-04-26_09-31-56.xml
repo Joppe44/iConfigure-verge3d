@@ -1,0 +1,13 @@
+<xml xmlns="http://www.w3.org/1999/xhtml">
+  <tab name="Init" type="InitTab" active="true" scrollx="975.4925791422525" scrolly="1324.723688761393" scale="1">
+    <block xmlns="https://developers.google.com/blockly/xml" type="initSettings" id=";.)L$VzEl5-w}`/Vu:_B" x="-834" y="-1232">
+      <field name="LOAD_COMP_ASSETS">FALSE</field>
+      <field name="FULLSCREEN">TRUE</field>
+      <field name="BKG_TRANSPARENCY">FALSE</field>
+      <field name="PRESERVE_DRAW_BUF">TRUE</field>
+      <field name="FADE_ANNOTATIONS">TRUE</field>
+    </block>
+  </tab>
+  <tab name="New Tab" type="CommonTab" active="false" scrollx="190" scrolly="-0.4444580078125" scale="0.9"></tab>
+  <editorsettings viewport-x="710.4" viewport-y="37" viewport-w="485.6" viewport-h="518.5" viewport-hidden="true" toolbox-library-mode="false" toolbox-minimized-mode="false"></editorsettings>
+</xml>

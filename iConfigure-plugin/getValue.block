@@ -1,0 +1,29 @@
+<script>
+    function template(block) {
+        block.setOutput(true, null);
+        block.setColour("#000000");
+        block.setTooltip("");
+        block.setHelpUrl("");
+        block
+            .appendDummyInput()
+            .appendField("get number value:")
+            .appendField(new Blockly.FieldTextInput("featureID"), "featureID");
+    }
+
+    function code(block) {
+        const featureId = block.getFieldValue("featureID");
+
+        const fun = Plug.provide("getValue", function (code) {
+            var selectedItems = window.selectedItems;
+            if(!selectedItems){return}
+            for (let selectedItem of selectedItems) {
+
+                if (selectedItem.ID === code) {
+                    return Number(selectedItem.value)
+                }
+            }
+            return 0;
+        });
+        return [`${fun}('${featureId}')`, Blockly.JavaScript.ORDER_NONE];
+    }
+</script>

@@ -1,0 +1,33 @@
+<template color="#000000">
+    <dummy>
+        <label>update on change of: </label>
+    </dummy>
+
+    <dummy>
+        <text name="featureID">feature ID</text>
+    </dummy>
+    
+    <statement name="myStatement"></statement>
+</template>
+
+<script>
+    function wrapFn(contents) {
+        return `function() {${contents}}`;
+    }
+
+    function code(block) {
+        const myStatement = wrapFn(Blockly.JavaScript.statementToCode(block, "myStatement"));
+        const featureId = block.getFieldValue("featureID");
+        const fun = Plug.provide("updateOnFeature", function (statements, featureId) {
+            window.addEventListener("message", function (e) {
+
+                let data = JSON.parse(e.data)
+
+                if(data.updatedFeature === featureId){
+                statements();
+                }
+            });
+        });
+        return `${fun}(${myStatement},"${featureId}");`;
+    }
+</script>

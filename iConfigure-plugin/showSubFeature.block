@@ -1,0 +1,38 @@
+<script>
+    function template(block) {
+     block.appendDummyInput()
+     .appendField("show subfeature");
+     block.appendValueInput("featureID")
+     .setCheck("String")
+     .setAlign(Blockly.ALIGN_RIGHT)
+     .appendField("feature ID:");
+     block.appendValueInput("subfeatureID")
+     .setCheck("String")
+     .setAlign(Blockly.ALIGN_RIGHT)
+     .appendField("subfeature ID:");
+     block.setPreviousStatement(true, null)
+     block.setNextStatement(true, null);
+     block.setTooltip("");
+    block.setHelpUrl("")
+  
+  
+    }
+
+    function code(block) {
+        const featureId = Blockly.JavaScript.valueToCode(block, "featureID", Blockly.JavaScript.ORDER_ATOMIC);
+        const subfeatureID = Blockly.JavaScript.valueToCode(block, "subfeatureID", Blockly.JavaScript.ORDER_ATOMIC);
+    
+        const fun = Plug.provide("showSubFeature", function (feature, subfeature) {
+            window.parent.postMessage(
+                { 
+                    action: "showSubFeature", 
+                    feature: feature, 
+                    value: subfeature
+                },
+                "*"
+            );
+
+        })
+        return `${fun}(${featureId},${subfeatureID});`
+    }
+</script>

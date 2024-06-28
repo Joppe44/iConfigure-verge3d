@@ -1,0 +1,40 @@
+<script>
+    function template(block) {
+        block.setOutput(true, null);
+        block.setColour("#000000");
+        block.setTooltip("");
+        block.setHelpUrl("");
+        
+        block
+            .appendValueInput("featureID")
+            .setCheck("String")
+            .setAlign(Blockly.ALIGN_RIGHT)
+            .appendField("feature ID:");
+        block
+            .appendValueInput("subfeatureID")
+            .setCheck("String")
+            .setAlign(Blockly.ALIGN_RIGHT)
+            .appendField("subfeature ID");
+    }
+
+    function code(block) {
+    const featureId = Blockly.JavaScript.valueToCode(block, "featureID", Blockly.JavaScript.ORDER_ATOMIC);
+    const subfeatureID = Blockly.JavaScript.valueToCode(block, "subfeatureID", Blockly.JavaScript.ORDER_ATOMIC);
+    const fun = Plug.provide("checkIfSelectedWithVar", function (feature, subfeature) {
+                 if(window.selectedItems){
+            var selectedItems = window.selectedItems;
+            for (let selectedItem of selectedItems) {
+
+                if (selectedItem.ID === feature) {
+                    if (typeof selectedItem.value === "string") {
+                        return selectedItem.value === subfeature;
+                    } else if (typeof selectedItem.value === "object") {
+                        return selectedItem.value[subfeature]
+                    }
+                }
+            }
+            return 0;}
+        });
+    return [`${fun}(${featureId},${subfeatureID})`, Blockly.JavaScript.ORDER_NONE];
+}
+</script>

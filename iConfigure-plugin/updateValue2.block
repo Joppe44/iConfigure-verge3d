@@ -1,0 +1,39 @@
+<script>
+    function template(block) {
+        block.setColour("#000000");
+        block.setTooltip("");
+        block.setHelpUrl("");
+        block.setNextStatement(true, null);
+        block.setPreviousStatement(true, null);
+        block
+        .appendDummyInput()
+        .appendField("hide subfeature:")
+        block .appendValueInput("featureID")
+            .setCheck("String")
+            .setAlign(Blockly.ALIGN_RIGHT)
+            .appendField("feature ID:");
+            block
+            .appendValueInput("subfeatureID")
+            .setCheck("String")
+            .setAlign(Blockly.ALIGN_RIGHT)
+            .appendField("subfeature ID");
+  
+    }
+    function code(block) {
+        const featureId = Blockly.JavaScript.valueToCode(block, "featureID", Blockly.JavaScript.ORDER_ATOMIC);
+        const subfeatureID = Blockly.JavaScript.valueToCode(block, "subfeatureID", Blockly.JavaScript.ORDER_ATOMIC);
+    
+        const fun = Plug.provide("updateValue2", function (feature, subfeature) {
+            window.parent.postMessage(
+                { 
+                    action: "hide", 
+                    feature: feature, 
+                    subFeature: subfeature
+                },
+                "*"
+            );
+
+        })
+        return `${fun}(${featureId},${subfeatureID})`
+    }
+</script>

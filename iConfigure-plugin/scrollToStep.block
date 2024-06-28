@@ -1,0 +1,34 @@
+<script>
+    function template(block) {
+        block.setNextStatement(true);
+        block.setPreviousStatement(true)
+        block.setColour("#000000");
+        block.setTooltip("");
+        block.setHelpUrl("");
+        block
+        .appendDummyInput()
+        .appendField("scroll to step")
+        block 
+        .appendValueInput("step")
+            .setAlign(Blockly.ALIGN_RIGHT)
+            .appendField("step number:");
+         
+  
+    }
+
+    function code(block) {
+        const step = Blockly.JavaScript.valueToCode(block, "step", Blockly.JavaScript.ORDER_ATOMIC);
+        const fun = Plug.provide("scrollToStep", function (step) {
+            console.log(step)
+            window.parent.postMessage(
+                {
+                    action: "scrollToStep", 
+                    step: step, 
+                },
+                "*"
+            );
+
+        })
+        return `${fun}(${step});`
+    }
+</script>

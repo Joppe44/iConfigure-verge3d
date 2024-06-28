@@ -1,0 +1,66 @@
+<xml xmlns="http://www.w3.org/1999/xhtml">
+  <tab name="Init" type="InitTab" active="false" scrollx="1069.6111145019531" scrolly="1232" scale="1">
+    <block xmlns="https://developers.google.com/blockly/xml" type="initSettings" id=";.)L$VzEl5-w}`/Vu:_B" x="-834" y="-1232">
+      <field name="LOAD_COMP_ASSETS">FALSE</field>
+      <field name="FULLSCREEN">FALSE</field>
+      <field name="BKG_TRANSPARENCY">FALSE</field>
+      <field name="PRESERVE_DRAW_BUF">TRUE</field>
+      <field name="FADE_ANNOTATIONS">TRUE</field>
+    </block>
+    <block xmlns="https://developers.google.com/blockly/xml" type="initPreloader" id="-[IO_g(*h1ZMs~9@f9G^" x="-909" y="-866">
+      <statement name="DO_END">
+        <block type="execScript" id="T7Gh05S/M6DR)Y{P8?~4">
+          <value name="TEXT">
+            <shadow type="textMultiline" id="P1!{10D%a-zWeg,}taBI">
+              <field name="HIGHLIGHT_MODE">javascript</field>
+              <field name="TEXT" editor-height="2" editor-width="570">window.parent.postMessage("loaded", '*');&amp;#10;</field>
+            </shadow>
+          </value>
+        </block>
+      </statement>
+    </block>
+  </tab>
+  <tab name="New Tab" type="CommonTab" active="true" scrollx="191.74512566460498" scrolly="-781.888916015625" scale="1">
+    <block xmlns="https://developers.google.com/blockly/xml" type="iConfigure_V2/screenShot" id="=SnGBF$isy%#ca}.jg7i" x="-70" y="349">
+      <value name="waitingTimeBefore">
+        <block type="math_number" id="(XDPfRthua2+@OSHjxV1">
+          <field name="NUM">100</field>
+        </block>
+      </value>
+      <value name="waitingTime">
+        <block type="math_number" id="9y_0N$gbd[#Bg{{}JpXE">
+          <field name="NUM">100</field>
+        </block>
+      </value>
+    </block>
+    <block xmlns="https://developers.google.com/blockly/xml" type="setScreenScale" id="wYVf#w/m%lg~vK*.3i@m" x="-85" y="762">
+      <value name="FACTOR">
+        <shadow type="math_number" id="^/YQ??gRehD.(V/d$~.9">
+          <field name="NUM">1</field>
+        </shadow>
+        <block type="nativeScreenScale" id="}D`mO=NZ:%IQTQZk%g9]"></block>
+      </value>
+    </block>
+    <block xmlns="https://developers.google.com/blockly/xml" type="disableRendering" id="e`RJ[O;2Y[WE-?2l%zA[" x="33" y="1050">
+      <field name="AA">TRUE</field>
+      <next>
+        <block type="enableRendering" id="*edBrF;XnfNRS8KQ}a}L"></block>
+      </next>
+    </block>
+    <block xmlns="https://developers.google.com/blockly/xml" type="iConfigure_V2/update" id="WW{=,L$rIrqpSL%Eo{8f" x="-25" y="1255">
+      <statement name="myStatement">
+        <block type="console.log" id="JUh*8l}p^K=wZ9)09|YT">
+          <value name="VALUE">
+            <shadow type="text" id="2S}CL)4H6KrF3CBk?GX9">
+              <field name="TEXT">Hello, Verge!</field>
+            </shadow>
+            <block type="iConfigure_V2/getValue" id="IznD#C?3=SU}*mcFG,g+">
+              <field name="featureID">number</field>
+            </block>
+          </value>
+        </block>
+      </statement>
+    </block>
+  </tab>
+  <editorsettings viewport-x="1044.1239990234376" viewport-y="107.08246994018555" viewport-w="485.6" viewport-h="518.5" viewport-hidden="false" toolbox-library-mode="false" toolbox-minimized-mode="false"></editorsettings>
+</xml>
